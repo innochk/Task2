@@ -1,0 +1,61 @@
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#include <cmath>
+using namespace std;
+
+class Solution {
+public:
+    int threeSumClosest(vector<int>& nums, int target) {
+        sort(nums.begin(), nums.end()); // Sort the vector to use two-pointer technique
+        int closestSum = nums[0] + nums[1] + nums[2]; // Initialize with the sum of the first three elements
+
+        for (int i = 0; i < nums.size() - 2; ++i) {
+            int left = i + 1; // Set the left pointer to the element next to the current element
+            int right = nums.size() - 1; // Set the right pointer to the last element
+
+            while (left < right) { // Iterate as long as left pointer is less than right pointer
+                int currentSum = nums[i] + nums[left] + nums[right]; // Calculate the sum of the three elements
+
+                // Update the closest sum if the current sum is closer to the target
+                if (abs(currentSum - target) < abs(closestSum - target)) {
+                    closestSum = currentSum;
+                }
+
+                // Move the pointers to find a closer sum
+                if (currentSum < target) {
+                    ++left; // Move left pointer to the right to increase the sum
+                }
+                else if (currentSum > target) {
+                    --right; // Move right pointer to the left to decrease the sum
+                }
+                else {
+                    return target; // If the sum equals the target, return the target immediately
+                }
+            }
+        }
+        return closestSum; // Return the closest sum found
+    }
+};
+
+int main() {
+    int target;
+    cout << "Enter target: ";
+    cin >> target; // Input the target value
+
+    int l;
+    cout << "\nEnter length: ";
+    cin >> l; // Input the length of the vector
+
+    vector<int> nums(l); // Create a vector of the specified length
+    cout << "\nEnter numbers of vector nums: ";
+    for (int i = 0; i < l; i++) {
+        cin >> nums[i]; // Input the elements of the vector
+    }
+
+    Solution tsc; // Create an instance of the Solution class
+    int result = tsc.threeSumClosest(nums, target); // Call the threeSumClosest method with the input vector and target
+    cout << "\nResult: " << result << endl; // Output the result
+
+    return 0; // Return 0 to indicate successful execution
+}
