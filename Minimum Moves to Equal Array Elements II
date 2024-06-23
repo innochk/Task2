@@ -1,0 +1,52 @@
+#include <iostream>
+#include <vector>
+
+
+using namespace std;
+
+class Solution {
+public:
+    int minMoves2(vector<int>& nums) {
+        int n = 0;
+        int sum = 0;
+
+        for (int i = 0; i < size(nums); i++) {
+            sum += nums[i];
+        }
+
+        int avr = sum / size(nums);
+
+        for (int i = 0; i < size(nums); i++) {
+            if (nums[i] > avr) {
+                n += nums[i] - avr;
+            }
+
+            if (nums[i] < avr) {
+                n += avr - nums[i];
+            }
+        }
+        return n;
+    }
+};
+
+int main() {
+	
+    int l;
+    cout << "enter lenght of vector: ";
+    cin >> l;
+
+    vector <int> nums(l);
+
+    cout << "\nenter numbers of vector: \n";
+    for (int i = 0; i < l; i++) {
+        cin >> nums[i];
+    }
+
+    Solution MM2;
+    int n=MM2.minMoves2(nums);
+
+    cout << "\nresult: ";
+    cout << n;
+
+    return 0;
+}
