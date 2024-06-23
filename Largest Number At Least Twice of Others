@@ -1,0 +1,59 @@
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+// Define a Solution class that contains the function to find the dominant index
+class Solution {
+public:
+
+    // Function to find the dominant index in the vector nums
+    int dominantIndex(vector<int>& nums) {
+        
+        // Initialize max with the first element and ind with index 0
+        int max = nums[0];
+        int ind = 0;
+
+        // Loop through the vector to find the maximum element and its index
+        for (int i = 0; i < nums.size(); i++) {
+            if (max < nums[i]) {
+                max = nums[i];
+                ind = i;
+            }
+        }
+
+        // Check if the maximum element is at least twice as large as all other elements
+        for (int i = 0; i < nums.size(); ++i) {
+            if (i != ind && nums[i] * 2 > max) {
+                return -1; // Not dominant if any element is more than half of the max
+            }
+        }
+        // Return the index of the dominant element
+        return ind;
+    }
+};
+
+int main() {
+    int l;
+
+    // Prompt user to enter the length of the vector
+    cout << "Enter length of vector: ";
+    cin >> l;
+
+    // Create a vector of size l
+    vector<int> nums(l);
+
+    // Prompt user to enter the elements of the vector
+    cout << "Enter numbers of vector: ";
+    for (int i = 0; i < l; i++) {
+        cin >> nums[i];
+    }
+
+    // Create an instance of Solution and find the dominant index
+    Solution solution;
+    int result = solution.dominantIndex(nums);
+
+    // Output the result
+    cout << "Result: " << result << endl;
+    return 0;
+}
