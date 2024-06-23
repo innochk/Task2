@@ -1,0 +1,62 @@
+#include <iostream>
+#include <vector>
+
+
+using namespace std;
+
+class Solution {
+public:
+    void bubbleSort(vector <int>& nums, int n)
+    {
+        int i, j;
+        bool swapped;
+        for (i = 0; i < n - 1; i++) {
+            swapped = false;
+            for (j = 0; j < n - i - 1; j++) {
+                if (nums[j] > nums[j + 1]) {
+                    swap(nums[j], nums[j + 1]);
+                    swapped = true;
+                }
+            }
+
+            if (swapped == false)
+                break;
+        }
+    }
+
+    int maximumProduct(vector<int>& nums) {
+
+        bubbleSort(nums,size(nums));
+
+        int n = nums.size();
+
+        // Option 1: The product of the three largest numbers
+        int option1 = nums[n - 1] * nums[n - 2] * nums[n - 3];
+
+        // Option 2: The product of the two smallest numbers (possibly negative)
+        // and the largest number
+        int option2 = nums[0] * nums[1] * nums[n - 1];
+
+        // Return the maximum of the two options
+        return max(option1, option2);
+    }
+};
+
+int main() {
+    int l;
+    cout << "Enter length of vector: ";
+    cin >> l;
+
+    vector<int> nums(l);
+
+    cout << "Enter numbers of vector: ";
+    for (int i = 0; i < l; i++) {
+        cin >> nums[i];
+    }
+
+    Solution solution;
+    int result = solution.maximumProduct(nums);
+
+    cout << "Result: " << result << endl;
+    return 0;
+}
