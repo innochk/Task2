@@ -1,0 +1,71 @@
+#include <iostream>
+#include <vector>
+using namespace std;
+
+// Function to perform a simple Bubble Sort on the intervals
+void bubbleSort(vector<vector<int>>& intervals) {
+    int n = intervals.size();
+    for (int i = 0; i < n - 1; ++i) {
+        for (int j = 0; j < n - i - 1; ++j) {
+            if (intervals[j][0] > intervals[j + 1][0]) {
+                swap(intervals[j], intervals[j + 1]);
+            }
+        }
+    }
+}
+
+// Function to merge overlapping intervals
+vector<vector<int>> mergeIntervals(vector<vector<int>>& intervals) {
+    if (intervals.size() <= 1) {
+        return intervals;
+    }
+
+    // Sort intervals based on the start times using Bubble Sort
+    bubbleSort(intervals);
+
+    // Result vector to store merged intervals
+    vector<vector<int>> merged;
+    // Initialize with the first interval
+    merged.push_back(intervals[0]);
+
+    for (int i = 1; i < intervals.size(); ++i) {
+        // Check if the current interval overlaps with the last merged interval
+        if (intervals[i][0] <= merged.back()[1]) {
+            // If they overlap, merge them by updating the end time
+            merged.back()[1] = max(merged.back()[1], intervals[i][1]);
+        } else {
+            // If they do not overlap, add the current interval to the result
+            merged.push_back(intervals[i]);
+        }
+    }
+
+    return merged;
+}
+
+// Utility function to print intervals
+void printIntervals(const vector<vector<int>>& intervals) {
+    for (const auto& interval : intervals) {
+        cout << "[" << interval[0] << ", " << interval[1] << "] ";
+    }
+    cout << endl;
+}
+
+// Main function to test the code
+int main() {
+    int n;
+    cout << "Enter the number of intervals: ";
+    cin >> n;
+
+    vector<vector<int>> intervals(n, vector<int>(2));
+    for (int i = 0; i < n; ++i) {
+        cout << "Enter the start and end of interval " << i + 1 << ": ";
+        cin >> intervals[i][0] >> intervals[i][1];
+    }
+
+    vector<vector<int>> merged = mergeIntervals(intervals);
+
+    cout << "Merged Intervals: ";
+    printIntervals(merged);
+
+    return 0;
+}
