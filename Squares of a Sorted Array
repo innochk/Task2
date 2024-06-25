@@ -1,0 +1,56 @@
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+// Function to square each element in the array nums and return sorted squares
+vector<int> sortedSquares(vector<int>& nums) {
+    // Create a vector to store squares of numbers
+    vector<int> squares(nums.size());
+
+    // Square each element
+    for (int i = 0; i < nums.size(); ++i) {
+        squares[i] = nums[i] * nums[i];
+    }
+
+    // Implement manual sorting (insertion sort) since we can't use <algorithm>
+    for (int i = 1; i < squares.size(); ++i) {
+        int key = squares[i];
+        int j = i - 1;
+        // Insertion sort
+        while (j >= 0 && squares[j] > key) {
+            squares[j + 1] = squares[j];
+            j--;
+        }
+        squares[j + 1] = key;
+    }
+
+    return squares;
+}
+
+int main() {
+    int n;
+    // Prompt user for number of elements
+    cout << "Enter the number of elements: ";
+    cin >> n;
+
+    // Initialize vector to store elements
+    vector<int> nums(n);
+    // Prompt user to enter elements of the array
+    cout << "Enter the elements of the array: ";
+    for (int i = 0; i < n; ++i) {
+        cin >> nums[i];
+    }
+
+    // Call sortedSquares to get sorted squares of the array elements
+    vector<int> result = sortedSquares(nums);
+
+    // Output the sorted squares
+    cout << "Sorted squares of the array elements: ";
+    for (int num : result) {
+        cout << num << " ";
+    }
+    cout << endl;
+
+    return 0;
+}
