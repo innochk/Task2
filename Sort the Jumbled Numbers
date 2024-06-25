@@ -1,0 +1,71 @@
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+// Function to calculate the mapped value of a number using given mapping
+int getMappedValue(int num, const vector<int>& mapping) {
+    int mappedNum = 0;
+    int power = 1;
+    
+    while (num > 0) {
+        int digit = num % 10;
+        mappedNum += mapping[digit] * power;
+        power *= 10;
+        num /= 10;
+    }
+    
+    return mappedNum;
+}
+
+// Custom sorting function to sort nums based on mapped values
+void customSort(vector<int>& nums, const vector<int>& mapping) {
+    auto compareMappedValues = [&](int a, int b) {
+        return getMappedValue(a, mapping) < getMappedValue(b, mapping);
+    };
+    
+    // Implementing bubble sort (since we are not allowed to use <algorithm>)
+    int n = nums.size();
+    for (int i = 0; i < n - 1; ++i) {
+        for (int j = 0; j < n - i - 1; ++j) {
+            if (compareMappedValues(nums[j], nums[j + 1])) {
+                // Swap nums[j] and nums[j + 1]
+                int temp = nums[j];
+                nums[j] = nums[j + 1];
+                nums[j + 1] = temp;
+            }
+        }
+    }
+}
+
+int main() {
+    // Input the mapping array
+    vector<int> mapping(10);
+    cout << "Enter mapping array (10 integers): ";
+    for (int i = 0; i < 10; ++i) {
+        cin >> mapping[i];
+    }
+    
+    // Input the nums array
+    int numCount;
+    cout << "Enter number of elements in nums array: ";
+    cin >> numCount;
+    
+    vector<int> nums(numCount);
+    cout << "Enter " << numCount << " integers for nums array: ";
+    for (int i = 0; i < numCount; ++i) {
+        cin >> nums[i];
+    }
+    
+    // Sort nums based on mapped values using custom sorting function
+    customSort(nums, mapping);
+    
+    // Output the sorted nums array
+    cout << "Sorted nums array based on mapped values:" << endl;
+    for (int num : nums) {
+        cout << num << " ";
+    }
+    cout << endl;
+    
+    return 0;
+}
