@@ -1,0 +1,73 @@
+#include <iostream>
+#include <vector>
+#include <string>
+#include <limits>
+
+using namespace std;
+
+// Function to convert "HH:MM" to total minutes since midnight
+int convertToMinutes(const string& time) {
+    int hours = stoi(time.substr(0, 2));
+    int minutes = stoi(time.substr(3, 2));
+    return hours * 60 + minutes;
+}
+
+// Function to sort a vector of integers (representing minutes) using bubble sort
+void bubbleSort(vector<int>& times) {
+    int n = times.size();
+    for (int i = 0; i < n - 1; ++i) {
+        for (int j = 0; j < n - 1 - i; ++j) {
+            if (times[j] > times[j + 1]) {
+                swap(times[j], times[j + 1]);
+            }
+        }
+    }
+}
+
+// Function to find the minimum time difference
+int findMinDifference(vector<string>& timePoints) {
+    // Step 1: Convert all time points to minutes
+    vector<int> minutesList;
+    for (const string& time : timePoints) {
+        minutesList.push_back(convertToMinutes(time));
+    }
+
+    // Step 2: Sort the minutes list
+    bubbleSort(minutesList);
+
+    // Step 3: Find the minimum difference
+    int minDiff = numeric_limits<int>::max();
+    int n = minutesList.size();
+
+    for (int i = 1; i < n; ++i) {
+        int diff = minutesList[i] - minutesList[i - 1];
+        minDiff = min(minDiff, diff);
+    }
+
+    // Step 4: Consider the circular difference
+    int circularDiff = (1440 - minutesList.back()) + minutesList.front();
+    minDiff = min(minDiff, circularDiff);
+
+    return minDiff;
+}
+
+int main() {
+    int n;
+    cout << "Enter the number of time points: ";
+    cin >> n;
+
+    // Read time points
+    vector<string> timePoints;
+    cout << "Enter the time points in the format HH:MM one by one:" << endl;
+    for (int i = 0; i < n; ++i) {
+        string time;
+        cin >> time;
+        timePoints.push_back(time);
+    }
+
+    // Call the function to find the minimum difference and print the result
+    int minDifference = findMinDifference(timePoints);
+    cout << "The minimum time difference is: " << minDifference << " minutes" << endl;
+
+    return 0;
+}
