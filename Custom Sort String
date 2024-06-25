@@ -1,0 +1,47 @@
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+string customSortString(string order, string s) {
+    // Создаем массив для подсчета частот символов в s
+    int count[26] = {0};
+    
+    // Подсчитываем частоту каждого символа в s
+    for (char ch : s) {
+        count[ch - 'a']++;
+    }
+    
+    // Строка для сохранения результата
+    string result;
+    
+    // Перебираем символы из order и добавляем в результирующую строку
+    for (char ch : order) {
+        // Добавляем символы из s, которые встречаются в порядке order
+        while (count[ch - 'a']-- > 0) {
+            result.push_back(ch);
+        }
+    }
+    
+    // Добавляем все оставшиеся символы из s, которые не встречались в order
+    for (char ch = 'a'; ch <= 'z'; ++ch) {
+        while (count[ch - 'a']-- > 0) {
+            result.push_back(ch);
+        }
+    }
+    
+    return result;
+}
+
+int main() {
+    string order, s;
+    cout << "Enter order string: ";
+    cin >> order;
+    cout << "Enter string s: ";
+    cin >> s;
+    
+    string sortedString = customSortString(order, s);
+    cout << "Result after custom sorting: " << sortedString << endl;
+    
+    return 0;
+}
