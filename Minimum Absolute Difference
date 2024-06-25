@@ -1,0 +1,61 @@
+#include <iostream>
+#include <vector>
+using namespace std;
+
+// Bubble sort implementation
+void bubbleSort(vector<int>& arr) {
+    int n = arr.size();
+    for (int i = 0; i < n - 1; ++i) {
+        for (int j = 0; j < n - i - 1; ++j) {
+            if (arr[j] > arr[j + 1]) {
+                // Swap arr[j] and arr[j + 1]
+                int temp = arr[j];
+                arr[j] = arr[j + 1];
+                arr[j + 1] = temp;
+            }
+        }
+    }
+}
+
+vector<vector<int>> minimumAbsDifference(vector<int>& arr) {
+    // Step 1: Sort the array using bubble sort (can be replaced with other sorting algorithm)
+    bubbleSort(arr);
+    
+    // Step 2: Find minimum absolute difference
+    int minDiff = INT_MAX;
+    for (int i = 1; i < arr.size(); ++i) {
+        minDiff = min(minDiff, arr[i] - arr[i-1]);
+    }
+    
+    // Step 3: Collect pairs with minimum difference
+    vector<vector<int>> result;
+    for (int i = 1; i < arr.size(); ++i) {
+        if (arr[i] - arr[i-1] == minDiff) {
+            result.push_back({arr[i-1], arr[i]});
+        }
+    }
+    
+    return result;
+}
+
+int main() {
+    // Input vector from the user
+    cout << "Enter the elements of the vector (separated by spaces, enter -1 to end):\n";
+    vector<int> arr;
+    int num;
+    while (cin >> num && num != -1) {
+        arr.push_back(num);
+    }
+    
+    // Calculate minimum absolute difference pairs
+    auto result = minimumAbsDifference(arr);
+    
+    // Output the results
+    cout << "Pairs with minimum absolute difference:\n";
+    for (auto pair : result) {
+        cout << "[" << pair[0] << ", " << pair[1] << "] ";
+    }
+    cout << "\n";
+    
+    return 0;
+}
