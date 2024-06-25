@@ -1,0 +1,39 @@
+#include <iostream>
+#include <vector>
+using namespace std;
+
+int main() {
+    int n;
+    cout << "Enter number of seats and students: ";
+    cin >> n;
+
+    vector<int> seats(n), students(n);
+    cout << "Enter positions of seats: ";
+    for (int i = 0; i < n; ++i) {
+        cin >> seats[i];
+    }
+    cout << "Enter positions of students: ";
+    for (int i = 0; i < n; ++i) {
+        cin >> students[i];
+    }
+
+    // Sort both arrays
+    for (int i = 0; i < n; ++i) {
+        for (int j = i + 1; j < n; ++j) {
+            if (seats[i] > seats[j]) {
+                swap(seats[i], seats[j]);
+                swap(students[i], students[j]);
+            }
+        }
+    }
+
+    // Calculate total moves
+    int totalMoves = 0;
+    for (int i = 0; i < n; ++i) {
+        totalMoves += abs(students[i] - seats[i]);
+    }
+
+    cout << "Minimum number of moves required: " << totalMoves << endl;
+
+    return 0;
+}
