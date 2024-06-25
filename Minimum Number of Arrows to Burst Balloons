@@ -1,0 +1,67 @@
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+// Custom quicksort function
+void quickSort(vector<vector<int>>& points, int low, int high) {
+    if (low < high) {
+        int pi = partition(points, low, high);
+        quickSort(points, low, pi - 1);
+        quickSort(points, pi + 1, high);
+    }
+}
+
+// Partition function used in quicksort
+int partition(vector<vector<int>>& points, int low, int high) {
+    int pivot = points[high][1];
+    int i = low - 1;
+    for (int j = low; j < high; j++) {
+        if (points[j][1] < pivot) {
+            i++;
+            swap(points[i], points[j]);
+        }
+    }
+    swap(points[i + 1], points[high]);
+    return i + 1;
+}
+
+// Function to find the minimum number of arrows needed to burst all balloons
+int findMinArrowShots(vector<vector<int>>& points) {
+    if (points.empty()) {
+        return 0;
+    }
+    
+    // Sorting balloons by their end coordinates using quicksort
+    quickSort(points, 0, points.size() - 1);
+    
+    int arrows = 1; // At least one arrow is needed for non-empty input
+    int current_end = points[0][1]; // Shoot first arrow at the end of the first balloon
+    
+    for (const auto& point : points) {
+        if (point[0] > current_end) {
+            // If the start of the current balloon is after the last arrow shot, shoot a new arrow
+            arrows++;
+            current_end = point[1];
+        }
+    }
+    
+    return arrows;
+}
+
+int main() {
+    int n;
+    cout << "Enter the number of balloons: ";
+    cin >> n;
+
+    vector<vector<int>> points(n, vector<int>(2));
+    cout << "Enter the coordinates of the balloons (xstart xend):\n";
+    for (int i = 0; i < n; ++i) {
+        cin >> points[i][0] >> points[i][1];
+    }
+
+    int result = findMinArrowShots(points);
+    cout << "Minimum number of arrows needed: " << result << endl;
+
+    return 0;
+}
