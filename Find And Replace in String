@@ -1,0 +1,54 @@
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+string performOperations(string s, int k, int indices[], string sources[], string targets[]) {
+    string result = s;  // Initialize result as the original string s
+    
+    // Process each replacement operation
+    for (int i = 0; i < k; ++i) {
+        int index = indices[i];
+        string source = sources[i];
+        string target = targets[i];
+        
+        // Check if source is a substring starting at index in the current result
+        if (result.substr(index, source.length()) == source) {
+            // Replace the substring source with target
+            result.replace(index, source.length(), target);
+        }
+    }
+    
+    return result;
+}
+
+int main() {
+    string s;
+    int k;
+    
+    // Input string s
+    cout << "Enter the original string s: ";
+    cin >> s;
+    
+    // Input number of operations k
+    cout << "Enter the number of operations k: ";
+    cin >> k;
+    
+    int indices[k];
+    string sources[k];
+    string targets[k];
+    
+    // Input arrays indices, sources, and targets
+    cout << "Enter the arrays indices, sources, and targets:" << endl;
+    for (int i = 0; i < k; ++i) {
+        cin >> indices[i] >> sources[i] >> targets[i];
+    }
+    
+    // Perform the operations
+    string result = performOperations(s, k, indices, sources, targets);
+    
+    // Output the resulting string
+    cout << "Resulting string after operations: " << result << endl;
+    
+    return 0;
+}
